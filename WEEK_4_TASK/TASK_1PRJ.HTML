@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Python Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .quiz-container {
+      background: #fff;
+      width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #eee;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .options button:hover {
+      background: #d6d6f5;
+    }
+    .result {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Python Quiz</h1>
+    <div id="quiz">
+      <div class="question" id="question">Question text</div>
+      <div class="options" id="options"></div>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Which of the following is the correct file extension for Python files?",
+        options: ["A. .pyth", "B. .pt", "C. .py", "D. .p"],
+        answer: "C. .py"
+      },
+      {
+        question: "Which keyword is used to define a function in Python?",
+        options: ["A. function", "B. def", "C. fun", "D. define"],
+        answer: "B. def"
+      },
+      {
+        question: "Which data type is used to store True/False values?",
+        options: ["A. int", "B. str", "C. bool", "D. float"],
+        answer: "C. bool"
+      },
+      {
+        question: "What is the output of: print(2 ** 3)?",
+        options: ["A. 6", "B. 8", "C. 9", "D. 12"],
+        answer: "B. 8"
+      },
+      {
+        question: "Which of the following is NOT a Python data type?",
+        options: ["A. list", "B. tuple", "C. array", "D. dictionary"],
+        answer: "C. array"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const resultEl = document.getElementById("result");
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      q.options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.onclick = () => checkAnswer(option, q.answer);
+        optionsEl.appendChild(button);
+      });
+    }
+
+    function checkAnswer(selected, correct) {
+      if (selected === correct) {
+        score++;
+        alert("✅ Correct!");
+      } else {
+        alert("❌ Wrong! Correct answer: " + correct);
+      }
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById("quiz").style.display = "none";
+      resultEl.textContent = `Quiz Completed! 🎉 Your Score: ${score}/${questions.length}`;
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
